@@ -1,13 +1,21 @@
-def correct(student_answer, answers):
-    return sum(1 for i, ans in enumerate(answers) if ans == student_answer[i % len(student_answer)])
-
 def solution(answers):
-    patterns = [
-        [1, 2, 3, 4, 5], 
-        [2, 1, 2, 3, 2, 4, 2, 5], 
-        [3, 3, 1, 1, 2, 2, 4, 4, 5, 5]
-    ]
-    scores = [correct(pattern, answers) for pattern in patterns]
-    max_score = max(scores)
+    answer = []
+
+    one = [1, 2, 3, 4, 5] * len(answers)
+    two = [2, 1, 2, 3, 2, 4, 2, 5] * len(answers)
+    three = [3, 3, 1, 1, 2, 2, 4, 4, 5, 5] * len(answers)
+    scores = [0, 0, 0]
+
+    for i in range(len(answers)):
+        if one[i] == answers[i]:
+            scores[0] += 1
+        if two[i] == answers[i]:
+            scores[1] += 1
+        if three[i] == answers[i]:
+            scores[2] += 1
+            
+    for i in range(3):
+        if max(scores) == scores[i]:
+            answer.append(i + 1)
     
-    return [i + 1 for i, score in enumerate(scores) if score == max_score]
+    return answer
