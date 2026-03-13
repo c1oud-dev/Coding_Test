@@ -13,7 +13,4 @@ def solution(scoville, K):
         if scoville[0] >= K:
             return cnt
     
-    if scoville[0] >= K:
-        return cnt
-    
-    return -1
+    return cnt if scoville[0] >= K else -1
