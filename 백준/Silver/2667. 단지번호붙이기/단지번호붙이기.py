@@ -1,36 +1,36 @@
-import sys
-
-# 1. 재귀 깊이 설정 (필수!)
-sys.setrecursionlimit(10**6)
-
-# 2. 입력을 빠르게 받기
-input = sys.stdin.readline
-
 N = int(input())
-graph = [list(map(int, input().strip())) for _ in range(N)]
+graph = [list(map(int, input())) for _ in range(N)]
 
-dx, dy = [-1, 1, 0, 0], [0, 0, -1, 1]
-home = []
+dx = [-1, 1, 0, 0]
+dy = [0, 0, -1, 1]
 
-# 3. DFS 함수 정의
-def dfs(x, y):
-    graph[x][y] = 0  # 방문 처리
-    count = 1
+area = 0 # 단지 수
+cnt = 0 # 단지에 속하는 집의 수
+home = [] # 집의 수를 담을 곳
+
+def dfs(i, j):
+  cnt = 1
+  
+  for k in range(4):
+    nx = i + dx[k]
+    ny = j + dy[k]
     
-    for k in range(4):
-        nx, ny = x + dx[k], y + dy[k]
+    if 0 <= nx < N and 0 <= ny < N:
+      if graph[nx][ny] == 1:
+        graph[nx][ny] = 0
+        cnt += dfs(nx, ny)
         
-        if 0 <= nx < N and 0 <= ny < N and graph[nx][ny] == 1:
-            count += dfs(nx, ny)
-    return count
+  return cnt
 
-# 4. 전체 탐색
 for i in range(N):
-    for j in range(N):
-        if graph[i][j] == 1:
-            home.append(dfs(i, j))
+  for j in range(N):
+    if graph[i][j] == 1:
+      area += 1
+      graph[i][j] = 0
+      home.append(dfs(i, j))
+      cnt = 0
+      
 
-# 5. 결과 출력
-print(len(home))
-for count in sorted(home):
-    print(count)
+print(area)
+for i in sorted(home):
+  print(i)
